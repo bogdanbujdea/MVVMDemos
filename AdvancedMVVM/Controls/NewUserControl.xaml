@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="AdvancedMVVM.Controls.NewUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:micro="using:Caliburn.Micro"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    micro:Bind.Model="{Binding}"
+    d:DesignWidth="400">
+
+    <Grid>
+        <StackPanel>
+            <Image
+                Width="250"
+                Height="250"
+                Source="{Binding UserImage}"
+                Stretch="UniformToFill" />
+            <TextBox
+                x:Name="Username"
+                Width="200"
+                Header="Username"/>
+            <TextBox
+                x:Name="Email"
+                Width="200"
+                Header="Email" />
+            <TextBox
+                x:Name="Password"
+                Width="200"
+                Header="Password"/>
+            <Button
+                x:Name="Signup"
+                Width="100"
+                HorizontalAlignment="Center"
+                Margin="0 20"
+                Content="Signup" />
+        </StackPanel>
+    </Grid>
+</UserControl>

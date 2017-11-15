@@ -13,19 +13,24 @@
                     x:Name="Username"
                     Width="200"
                     Header="Username"
-                    Text="" />
+                    Text=""
+                    TextChanged="OnTextChanged" />
                 <TextBox
                     x:Name="Email"
                     Width="200"
                     Header="Email"
-                    Text="" />
+                    Text=""
+                    TextChanged="OnTextChanged" />
                 <TextBox
                     x:Name="Password"
                     Width="200"
                     Header="Password"
-                    Text="" />
+                    Text=""
+                    TextChanged="OnTextChanged" />
                 <Button
+                    x:Name="SignupButton"
                     Width="100"
+                    IsEnabled="False"
                     Margin="0 20"
                     Click="SignupButtonClicked"
                     Content="Signup" />

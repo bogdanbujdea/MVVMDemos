@@ -16,17 +16,17 @@
                     x:Name="Username"
                     Width="200"
                     Header="Username"
-                    Text="{Binding SignupInfo.Username, Mode=TwoWay}" />
+                    Text="{Binding Username, Mode=TwoWay}" />
                 <TextBox
                     x:Name="Email"
                     Width="200"
                     Header="Email"
-                    Text="{Binding SignupInfo.Email, Mode=TwoWay}" />
+                    Text="{Binding Email, Mode=TwoWay}" />
                 <TextBox
                     x:Name="Password"
                     Width="200"
                     Header="Password"
-                    Text="{Binding SignupInfo.Password, Mode=TwoWay}" />
+                    Text="{Binding Password, Mode=TwoWay}" />
                 <Button
                     Width="100"
                     Margin="0 20"

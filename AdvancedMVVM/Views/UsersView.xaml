@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="AdvancedMVVM.Views.UsersView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:AdvancedMVVM.Controls"
+    xmlns:converters="using:AdvancedMVVM.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:micro="using:Caliburn.Micro"
+    xmlns:viewModels="using:AdvancedMVVM.ViewModels"
+    xmlns:models="using:AdvancedMVVM.Models"
+    d:DataContext="{d:DesignInstance viewModels:UsersViewModel}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:EmotionToColorConverter x:Key="EmotionToColorConverter" />
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="40*" />
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="CameraGrid">
+            <CaptureElement Name="PreviewControl" Stretch="UniformToFill" />
+            <ItemsControl
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                ItemsSource="{Binding Faces}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Width="{Binding ScaledFaceRectangle.Width}"
+                            Height="{Binding ScaledFaceRectangle.Height}"
+                            micro:Message.Attach="[Event Tapped]=[Action UserFaceSelected($dataContext)]"
+                            BorderBrush="{Binding EmotionType, Converter={StaticResource EmotionToColorConverter}}"
+                            BorderThickness="4 10 4 4">
+                            <Border.RenderTransform>
+                                <TranslateTransform X="{Binding ScaledFaceRectangle.Left}" Y="{Binding ScaledFaceRectangle.Top}" />
+                            </Border.RenderTransform>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <Grid Grid.Column="1">
+            <StackPanel>
+                <ListView x:Name="Faces" Visibility="Collapsed">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0 10" d:DataContext="{d:DesignInstance viewModels:FaceInfo}">
+                                <TextBlock
+                                    x:Name="Id"
+                                    FontSize="20"
+                                    Text="{Binding Id}" />
+                                <TextBlock
+                                    x:Name="Glasses"
+                                    FontSize="20"
+                                    Text="{Binding Glasses}" />
+                                <TextBlock
+                                    x:Name="Emotion"
+                                    FontSize="20"
+                                    Text="{Binding Happiness}" />
+                                <TextBlock
+                                    x:Name="Age"
+                                    FontSize="20"
+                                    Text="{Binding Age}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <controls:StatisticsControl DataContext="{Binding Statistics}" />
+                <controls:NewUserControl DataContext="{Binding NewUserControlViewModel, Mode=TwoWay}" />
+                <ListView x:Name="Users" Height="300">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance models:UserInfo}" Height="80">
+                                <Image Source="{Binding Image}"></Image>
+                                <TextBlock Margin="0 10" Text="{Binding Username}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="AdvancedMVVM.Controls.StatisticsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AdvancedMVVM.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance local:PresentationStatistics}"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Background="White"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontFamily" Value="Segoe UI"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="10" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Attendees count: " />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="{Binding DetectedFaces}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Foreground="DodgerBlue"
+            Text="Neutral faces: " />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Foreground="DodgerBlue"
+            Text="{Binding NeutralUsers}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Foreground="Green"
+            Text="Happy faces: " />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            Foreground="Green"
+            Text="{Binding HappyUsers}" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Foreground="Red"
+            Text="Angry faces: " />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Foreground="Red"
+            Text="{Binding AngryUsers}" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Foreground="BlueViolet"
+            Text="People with glasses: " />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="1"
+            Foreground="BlueViolet"
+            Text="{Binding UsersWithGlasses}" />
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="0"
+            Foreground="Black"
+            Text="Age average: " />
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="1"
+            Foreground="Black"
+            Text="{Binding AgeAverage}" />
+    </Grid>
+</UserControl>
