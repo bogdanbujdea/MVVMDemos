@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.UI.Popups;
 using AdvancedMVVM.Controls;
 using AdvancedMVVM.Features;
 using AdvancedMVVM.Models;
@@ -11,7 +13,7 @@ using Microsoft.ProjectOxford.Face.Contract;
 
 namespace AdvancedMVVM.ViewModels
 {
-    public class UsersViewModel : ViewModelBase
+    public class UsersViewModel : ViewModelBase, IHandleWithTask<UserInfo>
     {
         private readonly IFaceDetector _faceDetector;
         private readonly IFaceAnalyzer _faceAnalyzer;
@@ -21,7 +23,7 @@ namespace AdvancedMVVM.ViewModels
         private NewUserControlViewModel _newUserControlViewModel;
         private ObservableCollection<UserInfo> _users;
 
-        public UsersViewModel(IFaceDetector faceDetector, IFaceAnalyzer faceAnalyzer, NewUserControlViewModel newUserControlViewModel)
+        public UsersViewModel(IFaceDetector faceDetector, IFaceAnalyzer faceAnalyzer, IEventAggregator eventAggregator, NewUserControlViewModel newUserControlViewModel)
         {
             _faceDetector = faceDetector;
             _faceAnalyzer = faceAnalyzer;
@@ -29,6 +31,7 @@ namespace AdvancedMVVM.ViewModels
             NewUserControlViewModel = newUserControlViewModel;
             NewUserControlViewModel.UserCreated += NewUserControlViewModel_UserCreated;
             Users = new ObservableCollection<UserInfo>();
+            eventAggregator.Subscribe(this);
         }
 
         public ObservableCollection<UserInfo> Users
@@ -101,6 +104,11 @@ namespace AdvancedMVVM.ViewModels
         private void NewUserControlViewModel_UserCreated(object sender, UserInfo e)
         {
             Users.Add(e);
+        }
+
+        public async Task Handle(UserInfo message)
+        {
+            await new MessageDialog($"Your info is: username({message.Username}), email({message.Email}), password({message.Password}).").ShowAsync();
         }
     }
 }

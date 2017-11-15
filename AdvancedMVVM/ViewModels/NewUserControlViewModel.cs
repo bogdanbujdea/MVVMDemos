@@ -1,5 +1,4 @@
 ﻿using System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 using AdvancedMVVM.Models;
 
@@ -61,10 +60,9 @@ namespace AdvancedMVVM.ViewModels
 
         public bool CanSignup => HasValidInfo();
 
-        public async void Signup()
+        public void Signup()
         {
             OnUserCreated(new UserInfo{Email = Email, Password = Password, Username = Username, Image = UserImage});
-            await new MessageDialog($"Your info is: username({Username}), email({Email}), password({Password}).").ShowAsync();
         }
 
         public event EventHandler<UserInfo> UserCreated;
