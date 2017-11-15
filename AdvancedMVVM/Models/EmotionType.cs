@@ -1,4 +1,4 @@
-﻿namespace AdvancedMVVM.ViewModels
+﻿namespace AdvancedMVVM.Models
 {
     public enum EmotionType
     {
@@ -6,6 +6,5 @@
         Neutral,
         Happy,
         Angry
-
     }
 }

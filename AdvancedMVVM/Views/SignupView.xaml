@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="AdvancedMVVM.Views.UsersView"
+    x:Class="AdvancedMVVM.Views.SignupView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:AdvancedMVVM.Controls"
@@ -9,10 +9,11 @@
     xmlns:micro="using:Caliburn.Micro"
     xmlns:models="using:AdvancedMVVM.Models"
     xmlns:viewModels="using:AdvancedMVVM.ViewModels"
-    d:DataContext="{d:DesignInstance viewModels:UsersViewModel}"
+    d:DataContext="{d:DesignInstance viewModels:SignupViewModel}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:EmotionToColorConverter x:Key="EmotionToColorConverter" />
+        <micro:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -57,20 +58,10 @@
             <StackPanel>
                 <controls:StatisticsControl DataContext="{Binding Statistics}" />
                 <controls:NewUserControl DataContext="{Binding NewUserControlViewModel, Mode=TwoWay}" />
-                <ListView x:Name="Users" Height="300">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel
-                                Height="80"
-                                d:DataContext="{d:DesignInstance models:UserInfo}"
-                                Orientation="Horizontal">
-                                <Image Source="{Binding Image}" />
-                                <TextBlock Margin="0 10" Text="{Binding Username}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <controls:UsersList DataContext="{Binding UsersListViewModel}"></controls:UsersList>
             </StackPanel>
         </Grid>
+        <ProgressBar IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"></ProgressBar>
     </Grid>
 </Page>
+

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AdvancedMVVM.Models;
 using AdvancedMVVM.ViewModels;
 using Microsoft.ProjectOxford.Common.Contract;
 using Microsoft.ProjectOxford.Face.Contract;

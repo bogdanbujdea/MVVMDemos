@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AdvancedMVVM.Models;
 using AdvancedMVVM.ViewModels;
 using Microsoft.ProjectOxford.Face.Contract;
 

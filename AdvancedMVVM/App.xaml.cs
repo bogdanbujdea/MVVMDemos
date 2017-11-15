@@ -34,11 +34,13 @@ namespace AdvancedMVVM
             _container.RegisterWinRTServices();
             _container.RegisterPerRequest(typeof(IFaceDetector), "IFaceDetector", typeof(FaceDetector));
             _container.RegisterPerRequest(typeof(IFaceAnalyzer), "IFaceAnalyzer", typeof(FaceAnalyzer));
+            _container.PerRequest<UsersListViewModel>();
             _container.PerRequest<NewUserControlViewModel>();
-            _container.PerRequest<UsersViewModel>();
+            _container.PerRequest<SignupViewModel>();
 
             AddCustomConventions();
         }
+
         static void AddCustomConventions()
         {
             ConventionManager.AddElementConvention<TextBox>(TextBox.TextProperty, "Text", "TextChanged");
@@ -54,7 +56,7 @@ namespace AdvancedMVVM
             if (args.PreviousExecutionState == ApplicationExecutionState.Running)
                 return;
 
-            DisplayRootView<UsersView>();
+            DisplayRootView<SignupView>();
         }
 
         protected override object GetInstance(Type service, string key)

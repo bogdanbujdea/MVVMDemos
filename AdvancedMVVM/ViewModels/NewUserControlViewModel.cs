@@ -4,7 +4,7 @@ using AdvancedMVVM.Models;
 
 namespace AdvancedMVVM.ViewModels
 {
-    public class NewUserControlViewModel : ViewModelBase
+    public class NewUserControlViewModel : ViewModelBase, INewUserControlViewModel
     {
         private ImageSource _userImage;
         private string _email;

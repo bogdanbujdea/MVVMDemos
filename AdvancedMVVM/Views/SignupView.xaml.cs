@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.System.Display;
@@ -12,39 +13,56 @@ using AdvancedMVVM.ViewModels;
 
 namespace AdvancedMVVM.Views
 {
-    public sealed partial class UsersView
+    public sealed partial class SignupView
     {
         private readonly DispatcherTimer _dispatcherTimer;
+        private readonly DispatcherTimer _photoTimer;
         private readonly DisplayRequest _displayRequest;
         private readonly MediaCapture _mediaCapture;
+        private SoftwareBitmap _softwareBitmap;
 
-        public UsersView()
+        public SignupView()
         {
             InitializeComponent();
             _displayRequest = new DisplayRequest();
             _mediaCapture = new MediaCapture();
+            _photoTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             _dispatcherTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
             _dispatcherTimer.Tick += TimerTick;
+            _photoTimer.Tick += PhotoTick;
             Loaded += ViewLoaded;
         }
 
-        public UsersViewModel ViewModel => DataContext as UsersViewModel;
+        private async void PhotoTick(object sender, object e)
+        {
+            _softwareBitmap = await CapturePhoto();
+        }
+
+        public ISignupViewModel ViewModel => DataContext as ISignupViewModel;
 
         private async void TimerTick(object sender, object e)
+        {
+            ViewModel.IsBusy = true;
+            var widthScale = CameraGrid.ActualWidth / _softwareBitmap.PixelWidth;
+            var heightScale = CameraGrid.ActualHeight / _softwareBitmap.PixelHeight;
+            await ViewModel.RetrieveFaces(_softwareBitmap, heightScale, widthScale);
+            ViewModel.IsBusy = false;
+        }
+
+        private async Task<SoftwareBitmap> CapturePhoto()
         {
             var lowLagCapture =
                 await _mediaCapture.PrepareLowLagPhotoCaptureAsync(ImageEncodingProperties.CreateUncompressed(MediaPixelFormat.Bgra8));
             var capturedPhoto = await lowLagCapture.CaptureAsync();
             var softwareBitmap = capturedPhoto.Frame.SoftwareBitmap;
             await lowLagCapture.FinishAsync();
-            var widthScale = CameraGrid.ActualWidth / softwareBitmap.PixelWidth;
-            var heightScale = CameraGrid.ActualHeight / softwareBitmap.PixelHeight;
-            await ViewModel.RetrieveFaces(softwareBitmap, heightScale, widthScale);
+            return softwareBitmap;
         }
 
         private async void ViewLoaded(object sender, RoutedEventArgs e)
         {
             await StartPreviewAsync();
+            _photoTimer.Start();
             _dispatcherTimer.Start();
         }
 

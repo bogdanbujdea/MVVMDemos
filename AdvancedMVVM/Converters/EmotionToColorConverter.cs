@@ -2,6 +2,7 @@
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
+using AdvancedMVVM.Models;
 using AdvancedMVVM.ViewModels;
 
 namespace AdvancedMVVM.Converters

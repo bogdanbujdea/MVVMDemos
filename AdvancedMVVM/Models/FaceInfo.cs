@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Microsoft.ProjectOxford.Face.Contract;
 
-namespace AdvancedMVVM.ViewModels
+namespace AdvancedMVVM.Models
 {
     public class FaceInfo : PropertyChangedBase
     {

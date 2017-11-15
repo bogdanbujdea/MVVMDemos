@@ -1,8 +1,8 @@
 ﻿namespace AdvancedMVVM.Controls
 {
-    public sealed partial class StatisticsControl
+    public sealed partial class UsersList
     {
-        public StatisticsControl()
+        public UsersList()
         {
             InitializeComponent();
         }
