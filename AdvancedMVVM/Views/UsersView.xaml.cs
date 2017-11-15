@@ -23,7 +23,7 @@ namespace AdvancedMVVM.Views
             InitializeComponent();
             _displayRequest = new DisplayRequest();
             _mediaCapture = new MediaCapture();
-            _dispatcherTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            _dispatcherTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
             _dispatcherTimer.Tick += TimerTick;
             Loaded += ViewLoaded;
         }
@@ -67,11 +67,8 @@ namespace AdvancedMVVM.Views
 
         private async Task<DeviceInformation> FindCameraDeviceByPanelAsync()
         {
-            // Get available devices for capturing pictures
             DeviceInformationCollection allVideoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
-            // Get the desired camera by panel
             DeviceInformation desiredDevice = allVideoDevices.LastOrDefault();
-            // If there is no device mounted on the desired panel, return the first device found
             return desiredDevice ?? allVideoDevices.FirstOrDefault();
         }
     }

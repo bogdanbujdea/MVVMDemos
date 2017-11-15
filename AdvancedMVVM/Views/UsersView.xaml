@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:micro="using:Caliburn.Micro"
-    xmlns:viewModels="using:AdvancedMVVM.ViewModels"
     xmlns:models="using:AdvancedMVVM.Models"
+    xmlns:viewModels="using:AdvancedMVVM.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:UsersViewModel}"
     mc:Ignorable="d">
     <Page.Resources>
@@ -41,6 +41,13 @@
                             <Border.RenderTransform>
                                 <TranslateTransform X="{Binding ScaledFaceRectangle.Left}" Y="{Binding ScaledFaceRectangle.Top}" />
                             </Border.RenderTransform>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                FontSize="30"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="{Binding Age}" />
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -48,38 +55,17 @@
         </Grid>
         <Grid Grid.Column="1">
             <StackPanel>
-                <ListView x:Name="Faces" Visibility="Collapsed">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0 10" d:DataContext="{d:DesignInstance viewModels:FaceInfo}">
-                                <TextBlock
-                                    x:Name="Id"
-                                    FontSize="20"
-                                    Text="{Binding Id}" />
-                                <TextBlock
-                                    x:Name="Glasses"
-                                    FontSize="20"
-                                    Text="{Binding Glasses}" />
-                                <TextBlock
-                                    x:Name="Emotion"
-                                    FontSize="20"
-                                    Text="{Binding Happiness}" />
-                                <TextBlock
-                                    x:Name="Age"
-                                    FontSize="20"
-                                    Text="{Binding Age}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
                 <controls:StatisticsControl DataContext="{Binding Statistics}" />
                 <controls:NewUserControl DataContext="{Binding NewUserControlViewModel, Mode=TwoWay}" />
                 <ListView x:Name="Users" Height="300">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance models:UserInfo}" Height="80">
-                                <Image Source="{Binding Image}"></Image>
-                                <TextBlock Margin="0 10" Text="{Binding Username}"></TextBlock>
+                            <StackPanel
+                                Height="80"
+                                d:DataContext="{d:DesignInstance models:UserInfo}"
+                                Orientation="Horizontal">
+                                <Image Source="{Binding Image}" />
+                                <TextBlock Margin="0 10" Text="{Binding Username}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

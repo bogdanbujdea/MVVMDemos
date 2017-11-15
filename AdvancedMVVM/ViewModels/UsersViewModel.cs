@@ -82,17 +82,39 @@ namespace AdvancedMVVM.ViewModels
         {
             _lastFrame = softwareBitmap;
             var faces = await _faceDetector.DetectFaces(softwareBitmap);
-            Execute.OnUIThread(() =>
+            Execute.OnUIThread(async () =>
             {
                 var processedFaces = _faceAnalyzer.ProcessFaces(faces, heightScale, widthScale);
                 Faces = new ObservableCollection<FaceInfo>(processedFaces);
+                if (faces.Count == 0)
+                {
+                    Statistics = new PresentationStatistics();
+                    return;
+                }
                 Statistics.DetectedFaces = faces.Count;
                 Statistics.AngryUsers = faces.Count(f => f.FaceAttributes.Emotion.Anger > 0.7);
                 Statistics.HappyUsers = faces.Count(f => f.FaceAttributes.Emotion.Happiness > 0.7);
                 Statistics.NeutralUsers = faces.Count(f => f.FaceAttributes.Emotion.Neutral > 0.7);
                 Statistics.UsersWithGlasses = faces.Count(f => f.FaceAttributes.Glasses != Glasses.NoGlasses);
                 Statistics.AgeAverage = faces.Average(f => f.FaceAttributes.Age);
+                await AddHappyPeople();
             });
+        }
+
+        private async Task AddHappyPeople()
+        {
+            if (Faces.Count == 0)
+                return;
+            var tempFrame = _lastFrame;
+            foreach (var faceInfo in Faces.Where(f => f.EmotionType == EmotionType.Happy))
+            {
+                Users.Add(new UserInfo
+                {
+                    Email = "test@test.com",
+                    Username = $"{faceInfo.Age} - {faceInfo.Glasses} - {faceInfo.EmotionType}",
+                    Image = await ImageCropper.CropFaceFromImage(tempFrame, faceInfo.OriginalFaceRectangle)
+                });
+            }
         }
 
         public async Task UserFaceSelected(FaceInfo faceInfo)
