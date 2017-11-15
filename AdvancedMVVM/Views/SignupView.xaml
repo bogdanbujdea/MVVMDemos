@@ -45,7 +45,7 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
-                                FontSize="30"
+                                FontSize="24"
                                 FontWeight="Bold"
                                 Foreground="White"
                                 Text="{Binding Age}" />
@@ -58,10 +58,10 @@
             <StackPanel>
                 <controls:StatisticsControl DataContext="{Binding Statistics}" />
                 <controls:NewUserControl DataContext="{Binding NewUserControlViewModel, Mode=TwoWay}" />
-                <controls:UsersList DataContext="{Binding UsersListViewModel}"></controls:UsersList>
+                <controls:UsersList DataContext="{Binding UsersListViewModel}" />
             </StackPanel>
         </Grid>
-        <ProgressBar IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"></ProgressBar>
+        <ProgressBar IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </Page>
 

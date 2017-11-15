@@ -35,18 +35,33 @@ namespace AdvancedMVVM.Views
 
         private async void PhotoTick(object sender, object e)
         {
-            _softwareBitmap = await CapturePhoto();
+            try
+            {
+                _softwareBitmap = await CapturePhoto();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public ISignupViewModel ViewModel => DataContext as ISignupViewModel;
 
         private async void TimerTick(object sender, object e)
         {
-            ViewModel.IsBusy = true;
-            var widthScale = CameraGrid.ActualWidth / _softwareBitmap.PixelWidth;
-            var heightScale = CameraGrid.ActualHeight / _softwareBitmap.PixelHeight;
-            await ViewModel.RetrieveFaces(_softwareBitmap, heightScale, widthScale);
-            ViewModel.IsBusy = false;
+            try
+            {
+                ViewModel.IsBusy = true;
+                var widthScale = CameraGrid.ActualWidth / _softwareBitmap.PixelWidth;
+                var heightScale = CameraGrid.ActualHeight / _softwareBitmap.PixelHeight;
+                await ViewModel.RetrieveFaces(_softwareBitmap, heightScale, widthScale);
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                ViewModel.IsBusy = false;
+            }
         }
 
         private async Task<SoftwareBitmap> CapturePhoto()

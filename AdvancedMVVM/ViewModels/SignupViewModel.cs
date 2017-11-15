@@ -83,11 +83,11 @@ namespace AdvancedMVVM.ViewModels
             var faces = await _faceDetector.DetectFaces(softwareBitmap);
             Execute.OnUIThread(async () =>
             {
+                Statistics.CallCount++;
                 var processedFaces = _faceAnalyzer.ProcessFaces(faces, heightScale, widthScale);
                 Faces = new ObservableCollection<FaceInfo>(processedFaces);
                 if (faces.Count == 0)
                 {
-                    Statistics = new PresentationStatistics();
                     return;
                 }
                 Statistics.DetectedFaces = faces.Count;
@@ -97,7 +97,6 @@ namespace AdvancedMVVM.ViewModels
                 Statistics.UsersWithGlasses = faces.Count(f => f.FaceAttributes.Glasses != Glasses.NoGlasses);
                 Statistics.AgeAverage = faces.Average(f => f.FaceAttributes.Age);
                 Statistics.TotalHappyUsers += Statistics.HappyUsers;
-                Statistics.CallCount++;
                 await AddHappyPeople();
             });
         }
@@ -119,6 +118,5 @@ namespace AdvancedMVVM.ViewModels
         {
             await new MessageDialog($"Your info is: username({userInfo.Username}), email({userInfo.Email}), password({userInfo.Password}).").ShowAsync();
         }
-
     }
 }
